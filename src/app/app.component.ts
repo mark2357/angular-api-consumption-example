@@ -1,10 +1,18 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+	selector: 'app-root',
+	templateUrl: './app.component.html',
+	styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'angular-api-consumption-example';
+	title = 'angular-api-consumption-example';
+	authJwtToken: string = '';
+
+	ngOnInit(): void {
+	}
+
+	updateToken(newToken: string) {
+		this.authJwtToken = newToken;
+	}
 }

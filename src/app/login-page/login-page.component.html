@@ -1,0 +1,68 @@
+<div class="row d-flex justify-content-center">
+  <div class="col col-sm-8 col-md-6 col-lg-5 col-xl-4">
+    <div class="card m-5">
+      <div class="card-body">
+        <form
+          [formGroup]="loginForm"
+          (ngSubmit)="handleLoginClick(loginForm.value)"
+        >
+        <div *ngIf="showFailedLoginAlert === true" class="alert alert-danger" role="alert">
+          Email or Password are invalid
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true" (click)="handleCloseLoginFailedAlert()">&times;</span>
+          </button>
+        </div>
+          <div class="form-group">
+            <label for="EmailInput">Email address</label>
+            <input
+              [ngClass]="{
+                'form-control': true,
+                'is-valid': this.loginForm.controls.email.valid,
+                'is-invalid': !this.loginForm.controls.email.valid
+              }"
+              type="email"
+              id="email"
+              formControlName="email"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="passwordInput">Password</label>
+            <div class="input-group">
+              <input
+                [type]="showPassword ? 'text' : 'password'"
+                [ngClass]="{
+                  'form-control': true,
+                  'is-valid': this.loginForm.controls.password.valid,
+                  'is-invalid': !this.loginForm.controls.password.valid
+                }"
+                id="password"
+                formControlName="password"
+                required
+              />
+              <div class="input-group-append">
+                <button
+                  class="btn btn-outline-secondary eye-button"
+                  type="button"
+                  (click)="handleTogglePasswordVisibility()"
+                >
+                  <fa-icon [icon]="showPassword ? faEye : faEyeSlash"></fa-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+          <button
+            [disabled]="
+              !this.loginForm.controls.password.valid ||
+              !this.loginForm.controls.email.valid
+            "
+            type="submit"
+            class="btn btn-primary"
+          >
+            Login
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
