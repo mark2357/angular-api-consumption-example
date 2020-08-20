@@ -1,1 +1,50 @@
-<p>events-list-page works!</p>
+<nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+  <span class="navbar-brand" href="#">Events List</span>
+  <ul class="navbar-nav mr-auto">
+    <li
+      [ngClass]="{
+		'nav-item': true,
+		'active': tabIndex === 0
+	  }"
+	  (click)="handleChangeTab(0)"
+    >
+      <span class="nav-link pointer-span">Summery </span>
+    </li>
+    <li
+      [ngClass]="{
+		'nav-item': true,
+		'active': tabIndex === 1
+	  }"
+	  (click)="handleChangeTab(1)"
+    >
+      <span class="nav-link pointer-span">List</span>
+    </li>
+  </ul>
+  <button class="btn btn-primary" (click)="handleLogoutClick()">
+    <span>Logout</span>
+  </button>
+</nav>
+<table *ngIf="tabIndex === 1" class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Campaign Name</th>
+      <th scope="col">Event Type</th>
+      <th scope="col">App User ID</th>
+      <th scope="col">App User Gender</th>
+      <th scope="col">Event Date</th>
+      <th scope="col">App Device Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let event of eventsData">
+      <td>{{ event.id }}</td>
+      <td>{{ event.campaignName }}</td>
+      <td>{{ event.eventType }}</td>
+      <td>{{ event.appUserId }}</td>
+      <td>{{ event.appUserGender }}</td>
+      <td>{{ event.eventDate }}</td>
+      <td>{{ event.appDeviceType }}</td>
+    </tr>
+  </tbody>
+</table>
