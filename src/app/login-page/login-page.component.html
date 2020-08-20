@@ -6,12 +6,14 @@
           [formGroup]="loginForm"
           (ngSubmit)="handleLoginClick(loginForm.value)"
         >
-        <div *ngIf="showFailedLoginAlert === true" class="alert alert-danger" role="alert">
-          Email or Password are invalid
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true" (click)="handleCloseLoginFailedAlert()">&times;</span>
-          </button>
-        </div>
+          <ngb-alert
+            *ngIf="showFailedLoginAlert === true"
+            type="danger"
+            [dismissible]="true"
+            (close)="handleCloseLoginFailedAlert()"
+          >
+            Email or Password are invalid
+          </ngb-alert>
           <div class="form-group">
             <label for="EmailInput">Email address</label>
             <input

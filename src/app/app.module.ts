@@ -14,6 +14,7 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { EventsListPageComponent } from './events-list-page/events-list-page.component';
 import { SummeryTabComponent } from './summery-tab/summery-tab.component';
 import { ListTabComponent } from './list-tab/list-tab.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ListTabComponent } from './list-tab/list-tab.component';
     FormsModule,
     ReactiveFormsModule,
     NgxChartsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

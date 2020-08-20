@@ -2,8 +2,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { EventData } from '../types/EventData';
-import { GraphData } from '../types/GraphData';
-
 
 @Component({
 	selector: 'app-events-list-page',
