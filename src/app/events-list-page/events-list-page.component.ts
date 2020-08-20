@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { EventData } from '../types/EventData';
-
+import { GraphData } from '../types/GraphData';
 
 
 @Component({
@@ -12,39 +13,35 @@ import { EventData } from '../types/EventData';
 export class EventsListPageComponent implements OnInit {
 	@Input() token: string;
 	@Output() updateTokenEvent = new EventEmitter<string>();
-	eventsData : Array<EventData> = [];
-	constructor(private http: HttpClient) { }
+	eventsData: Array<EventData> = null;
 	// the current tab index to use
 	tabIndex: number = 0;
-	
+
+	constructor(private http: HttpClient) { }
+
 	ngOnInit(): void {
 		this.requestData();
 	}
 
 	private requestData() {
 		const headers = new HttpHeaders()
-   			.set('Authorization', 'Bearer ' + this.token);
-	   		
+			.set('Authorization', 'Bearer ' + this.token);
+
 		this.http.get<Array<EventData>>(
 			'https://localhost:44393/events',
 			{ 'headers': headers },
-			 
+
 		).toPromise().then(
 			res => { // Success
-			console.log('success', res);
-			this.eventsData = res;
+				this.eventsData = res;
 			},
 			msg => { // Error
-			console.log('error', msg);
+				console.log('error', msg);
 			}
-		  );
+		);
 	}
 
-	private processData(data) {
-
-	}
-
-	public handleChangeTab(newTabIndex: number) : void {
+	public handleChangeTab(newTabIndex: number): void {
 		this.tabIndex = newTabIndex;
 	}
 

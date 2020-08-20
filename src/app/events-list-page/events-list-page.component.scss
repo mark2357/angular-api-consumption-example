@@ -1,3 +1,11 @@
-.pointer-span {
-    cursor: pointer;
+.page-wrapper {
+    min-height: 100vh;
+    height: auto;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+
+    .pointer-span {
+        cursor: pointer;
+    }
 }

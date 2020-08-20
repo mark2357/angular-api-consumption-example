@@ -1,12 +1,11 @@
-<div class="page-container">
-  <app-login-page
-    *ngIf="authJwtToken === ''"
-    (updateTokenEvent)="updateToken($event)"
-  ></app-login-page>
-  <app-events-list-page
-    *ngIf="authJwtToken !== ''"
-    [token]="authJwtToken"
-    (updateTokenEvent)="updateToken($event)"
-  >
-  </app-events-list-page>
-</div>
+<app-login-page
+  *ngIf="authJwtToken === ''"
+  (updateTokenEvent)="updateToken($event)"
+></app-login-page>
+<app-events-list-page
+  class="events-list-page"
+  *ngIf="authJwtToken !== ''"
+  [token]="authJwtToken"
+  (updateTokenEvent)="updateToken($event)"
+>
+</app-events-list-page>

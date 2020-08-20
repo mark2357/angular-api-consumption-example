@@ -1,0 +1,10 @@
+:host {
+    flex-grow: 1;
+    display: flex;
+    
+    .page-loading-spinner {
+        width: 30vw;
+        height: 30vw;
+        font-size: 3rem;
+    }
+}

@@ -1,0 +1,13 @@
+.graph-container {
+    // used to get a 1:1 aspect ratio
+    width: 100%;
+    padding-top: 100%;
+    position: relative;
+    .graph-wrapper {
+        position: absolute;
+        top: 0em;
+        left: 0em;
+        bottom: 0em;
+        right: 0em;
+    }
+}
