@@ -4,7 +4,6 @@ import { GraphData } from '../types/GraphData';
 import { DateRange } from '../types/DateRange';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EventFilterType } from '../enums/EventFilterType';
-import { NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -29,9 +28,9 @@ export class SummaryTabComponent implements OnInit {
 	eventTypeGraphData: Array<GraphData> = [];
 	genderGraphData: Array<GraphData> = [];
 	deviceTypeGraphData: Array<GraphData> = [];
+	
 
-
-	constructor(private modalService: NgbModal) {
+	constructor() {
 	}
 
 	ngOnChanges(changes) {
@@ -44,6 +43,9 @@ export class SummaryTabComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
+		if(this.eventsData !== null) {
+			this.processData();
+		}
 	}
 
 	private processData(): void {
@@ -94,45 +96,34 @@ export class SummaryTabComponent implements OnInit {
 		}
 	}
 
-	public handleOpenModal(context) {
-		this.modalService.open(context);
-	}
+	public handleAddRemoveFilter(type: EventFilterType, data): void {
 
-	public handleAddFilter(type: EventFilterType, data) {
-		let jsonData = JSON.parse(JSON.stringify(data));
+		let jsonData = data === null ? null : JSON.parse(JSON.stringify(data));
 
 		switch (type) {
-			case EventFilterType.CAMPAIGN_NAME:
+			case EventFilterType.CAMPAIGN_NAME:	
+			if(jsonData === null || this.campaignFilter === jsonData.name)
+				this.campaignFilter = null;
+			else
 				this.campaignFilter = jsonData.name;
 				break;
 			case EventFilterType.EVENT_TYPE:
+				if (jsonData === null || this.eventTypeFilter === jsonData.name)
+				this.eventTypeFilter = null;
+			else
 				this.eventTypeFilter = jsonData.name;
 				break;
 			case EventFilterType.GENDER:
+				if (jsonData === null || this.genderFilter === jsonData.name)
+				this.genderFilter = null;
+			else
 				this.genderFilter = jsonData.name;
 				break;
 			case EventFilterType.APP_DEVICE_TYPE:
-				this.deviceTypeFilter = jsonData.name;
-				break;
-			default:
-				break;
-		}
-		this.processData();
-	}
-
-	public handleRemoveFilter(type: EventFilterType): void {
-		switch (type) {
-			case EventFilterType.CAMPAIGN_NAME:
-				this.campaignFilter = null;
-				break;
-			case EventFilterType.EVENT_TYPE:
-				this.eventTypeFilter = null;
-				break;
-			case EventFilterType.GENDER:
-				this.genderFilter = null;
-				break;
-			case EventFilterType.APP_DEVICE_TYPE:
+				if (jsonData === null || this.deviceTypeFilter === jsonData.name)
 				this.deviceTypeFilter = null;
+			else
+				this.deviceTypeFilter = jsonData.name;
 				break;
 			default:
 				break;

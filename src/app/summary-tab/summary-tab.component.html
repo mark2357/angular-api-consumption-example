@@ -1,35 +1,10 @@
-<ng-template #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">Modal title</h4>
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <p>One fine body&hellip;</p>
-  </div>
-  <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-light"
-      (click)="modal.close('Close click')"
-    >
-      Close
-    </button>
-  </div>
-</ng-template>
 <div class="filter-container d-flex align-items-center px-3 mt-2">
   <span class="mr-2">Filters:</span>
   <button
     *ngIf="campaignFilter !== null"
     type="button"
     class="btn btn-primary mr-2"
-    (click)="handleRemoveFilter(EventFilterType.CAMPAIGN_NAME)"
+    (click)="handleAddRemoveFilter(EventFilterType.CAMPAIGN_NAME, null)"
   >
     Campaign Filter : {{ campaignFilter }}
     <fa-icon [icon]="faTimes"></fa-icon>
@@ -38,7 +13,7 @@
     *ngIf="eventTypeFilter !== null"
     type="button"
     class="btn btn-primary mr-2"
-    (click)="handleRemoveFilter(EventFilterType.EVENT_TYPE)"
+    (click)="handleAddRemoveFilter(EventFilterType.EVENT_TYPE, null)"
   >
     Event Type Filter : {{ eventTypeFilter }}
     <fa-icon [icon]="faTimes"></fa-icon>
@@ -47,7 +22,7 @@
     *ngIf="genderFilter !== null"
     type="button"
     class="btn btn-primary mr-2"
-    (click)="handleRemoveFilter(EventFilterType.GENDER)"
+    (click)="handleAddRemoveFilter(EventFilterType.GENDER, null)"
   >
     Gender Filter : {{ genderFilter }}
     <fa-icon [icon]="faTimes"></fa-icon>
@@ -56,7 +31,7 @@
     *ngIf="deviceTypeFilter !== null"
     type="button"
     class="btn btn-primary mr-2"
-    (click)="handleRemoveFilter(EventFilterType.APP_DEVICE_TYPE)"
+    (click)="handleAddRemoveFilter(EventFilterType.APP_DEVICE_TYPE, null)"
   >
     Device Filter : {{ deviceTypeFilter }}
     <fa-icon [icon]="faTimes"></fa-icon>
@@ -67,10 +42,10 @@
   [initialDateRange]="dateFilterRange"
 >
 </app-date-range-picker>
-<div class="row px-4">
+<div class="row px-4 m-0">
   <div class="col-12 col-md-6 col-xl-4 p-2">
     <div class="card card-body">
-      <h2 class="card-title text-center">Campaign Name</h2>
+      <h5 class="card-title text-center">Campaign Name</h5>
       <div class="graph-container">
         <div class="graph-wrapper">
           <ngx-charts-pie-chart
@@ -78,7 +53,7 @@
             [results]="campaignGraphData"
             doughnut="true"
             labels="true"
-            (select)="handleAddFilter(EventFilterType.CAMPAIGN_NAME, $event)"
+            (select)="handleAddRemoveFilter(EventFilterType.CAMPAIGN_NAME, $event)"
           >
           </ngx-charts-pie-chart>
         </div>
@@ -87,7 +62,7 @@
   </div>
   <div class="col-12 col-md-6 col-xl-4 p-2">
     <div class="card card-body">
-      <h2 class="card-title text-center">Event Type</h2>
+      <h5 class="card-title text-center">Event Type</h5>
       <div class="graph-container">
         <div class="graph-wrapper">
           <ngx-charts-pie-chart
@@ -95,7 +70,7 @@
             [results]="eventTypeGraphData"
             doughnut="true"
             labels="true"
-            (select)="handleAddFilter(EventFilterType.EVENT_TYPE, $event)"
+            (select)="handleAddRemoveFilter(EventFilterType.EVENT_TYPE, $event)"
           >
           </ngx-charts-pie-chart>
         </div>
@@ -104,14 +79,14 @@
   </div>
   <div class="col-12 col-md-6 col-xl-4 p-2">
     <div class="card card-body">
-      <h2 class="card-title text-center">Gender</h2>
+      <h5 class="card-title text-center">Gender</h5>
       <div class="graph-container">
         <div class="graph-wrapper">
           <ngx-charts-pie-chart
             [results]="genderGraphData"
             doughnut="true"
             labels="true"
-            (select)="handleAddFilter(EventFilterType.GENDER, $event)"
+            (select)="handleAddRemoveFilter(EventFilterType.GENDER, $event)"
           >
           </ngx-charts-pie-chart>
         </div>
@@ -120,7 +95,7 @@
   </div>
   <div class="col-12 col-md-6 col-xl-4 p-2">
     <div class="card card-body">
-      <h2 class="card-title text-center">Device Type</h2>
+      <h5 class="card-title text-center">Device Type</h5>
       <div class="graph-container">
         <div class="graph-wrapper">
           <ngx-charts-pie-chart
@@ -128,7 +103,7 @@
             [results]="deviceTypeGraphData"
             doughnut="true"
             labels="true"
-            (select)="handleAddFilter(EventFilterType.APP_DEVICE_TYPE, $event)"
+            (select)="handleAddRemoveFilter(EventFilterType.APP_DEVICE_TYPE, $event)"
           >
           </ngx-charts-pie-chart>
         </div>

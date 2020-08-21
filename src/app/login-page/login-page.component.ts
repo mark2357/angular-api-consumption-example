@@ -32,7 +32,6 @@ export class LoginPageComponent implements OnInit {
 	}
 
 	public handleLoginClick(loginData): void {
-		console.log(loginData);
 		this.http.post<any>(
 			'https://localhost:44393/users/authenticate',
 			{
