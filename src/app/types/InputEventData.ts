@@ -1,9 +1,9 @@
-export interface EventData {
+export interface InputEventData {
     id: string;
     campaignName: string;
     eventType: string;
     appUserId: string;
     appUserGender: string;
-    eventDate: Date;
+    eventDate: string;
     appDeviceType: string;
 }

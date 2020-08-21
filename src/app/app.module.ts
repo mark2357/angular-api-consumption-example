@@ -12,17 +12,19 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AppComponent } from './app.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { EventsListPageComponent } from './events-list-page/events-list-page.component';
-import { SummeryTabComponent } from './summery-tab/summery-tab.component';
+import { SummaryTabComponent } from './summary-tab/summary-tab.component';
 import { ListTabComponent } from './list-tab/list-tab.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DateRangePickerComponent } from './date-range-picker/date-range-picker.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginPageComponent,
     EventsListPageComponent,
-    SummeryTabComponent,
-    ListTabComponent
+    SummaryTabComponent,
+    ListTabComponent,
+    DateRangePickerComponent
   ],
   imports: [
     BrowserModule,

@@ -28,37 +28,45 @@
   <button
     *ngIf="campaignFilter !== null"
     type="button"
-    class="btn btn-primary"
+    class="btn btn-primary mr-2"
     (click)="handleRemoveFilter(EventFilterType.CAMPAIGN_NAME)"
   >
     Campaign Filter : {{ campaignFilter }}
+    <fa-icon [icon]="faTimes"></fa-icon>
   </button>
   <button
     *ngIf="eventTypeFilter !== null"
     type="button"
-    class="btn btn-primary"
+    class="btn btn-primary mr-2"
     (click)="handleRemoveFilter(EventFilterType.EVENT_TYPE)"
   >
     Event Type Filter : {{ eventTypeFilter }}
+    <fa-icon [icon]="faTimes"></fa-icon>
   </button>
   <button
     *ngIf="genderFilter !== null"
     type="button"
-    class="btn btn-primary"
+    class="btn btn-primary mr-2"
     (click)="handleRemoveFilter(EventFilterType.GENDER)"
   >
     Gender Filter : {{ genderFilter }}
+    <fa-icon [icon]="faTimes"></fa-icon>
   </button>
   <button
     *ngIf="deviceTypeFilter !== null"
     type="button"
-    class="btn btn-primary"
+    class="btn btn-primary mr-2"
     (click)="handleRemoveFilter(EventFilterType.APP_DEVICE_TYPE)"
   >
     Device Filter : {{ deviceTypeFilter }}
+    <fa-icon [icon]="faTimes"></fa-icon>
   </button>
 </div>
-
+<app-date-range-picker
+  (updateDateRangeEvent)="updateDateRange($event)"
+  [initialDateRange]="dateFilterRange"
+>
+</app-date-range-picker>
 <div class="row px-4">
   <div class="col-12 col-md-6 col-xl-4 p-2">
     <div class="card card-body">

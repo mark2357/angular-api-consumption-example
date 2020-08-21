@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SummeryTabComponent } from './summery-tab.component';
+import { DateRangePickerComponent } from './date-range-picker.component';
 
-describe('SummeryTabComponent', () => {
-  let component: SummeryTabComponent;
-  let fixture: ComponentFixture<SummeryTabComponent>;
+describe('DateRangePickerComponent', () => {
+  let component: DateRangePickerComponent;
+  let fixture: ComponentFixture<DateRangePickerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SummeryTabComponent ]
+      declarations: [ DateRangePickerComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SummeryTabComponent);
+    fixture = TestBed.createComponent(DateRangePickerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

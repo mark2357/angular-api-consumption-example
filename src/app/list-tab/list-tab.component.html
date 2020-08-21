@@ -1,33 +1,108 @@
-<div class="d-flex flex-grow-1 justify-content-center align-items-center">
-  <div
-    *ngIf="eventsData === null"
-    class="page-loading-spinner spinner-border text-primary"
-    role="status"
-  >
+<div
+  *ngIf="eventsData === null"
+  class="d-flex flex-grow-1 justify-content-center align-items-center"
+>
+  <div class="page-loading-spinner spinner-border text-primary" role="status">
     <span class="sr-only">Loading...</span>
   </div>
 </div>
+<div class="p-2">
+  <app-date-range-picker
+    (updateDateRangeEvent)="updateDateRange($event)"
+    [initialDateRange]="dateFilterRange"
+  >
+  </app-date-range-picker>
+</div>
 <div *ngIf="eventsData !== null" class="table">
-  <table>
+  <table class="w-100">
     <thead>
       <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Campaign Name</th>
-        <th scope="col">Event Type</th>
-        <th scope="col">App User ID</th>
-        <th scope="col">App User Gender</th>
-        <th scope="col">Event Date</th>
-        <th scope="col">App Device Type</th>
+        <th scope="col" (click)="handleSortColumn(SortColumn.ID)">
+          ID
+          <fa-icon
+            [icon]="getSortIcon(SortColumn.ID)"
+            [ngClass]="{
+              'ml-2': true,
+              'faded-sort': currentSortColumn !== SortColumn.ID
+            }"
+          >
+          </fa-icon>
+        </th>
+        <th scope="col" (click)="handleSortColumn(SortColumn.CAMPAIGN_NAME)">
+          Campaign Name
+          <fa-icon
+            [icon]="getSortIcon(SortColumn.CAMPAIGN_NAME)"
+            [ngClass]="{
+              'ml-2': true,
+              'faded-sort': currentSortColumn !== SortColumn.CAMPAIGN_NAME
+            }"
+          >
+          </fa-icon>
+        </th>
+        <th scope="col" (click)="handleSortColumn(SortColumn.EVENT_TYPE)">
+          Event Type
+          <fa-icon
+            [icon]="getSortIcon(SortColumn.EVENT_TYPE)"
+            [ngClass]="{
+              'ml-2': true,
+              'faded-sort': currentSortColumn !== SortColumn.EVENT_TYPE
+            }"
+          >
+          </fa-icon>
+        </th>
+        <th scope="col" (click)="handleSortColumn(SortColumn.APP_USER_ID)">
+          App User ID<fa-icon
+            [icon]="getSortIcon(SortColumn.APP_USER_ID)"
+            [ngClass]="{
+              'ml-2': true,
+              'faded-sort': currentSortColumn !== SortColumn.APP_USER_ID
+            }"
+          >
+          </fa-icon>
+        </th>
+        <th scope="col" (click)="handleSortColumn(SortColumn.APP_USER_GENDER)">
+          App User Gender<fa-icon
+            [icon]="getSortIcon(SortColumn.APP_USER_GENDER)"
+            [ngClass]="{
+              'ml-2': true,
+              'faded-sort': currentSortColumn !== SortColumn.APP_USER_GENDER
+            }"
+          >
+          </fa-icon>
+        </th>
+        <th scope="col" (click)="handleSortColumn(SortColumn.EVENT_DATE)">
+          Event Date<fa-icon
+            [icon]="getSortIcon(SortColumn.EVENT_DATE)"
+            [ngClass]="{
+              'ml-2': true,
+              'faded-sort': currentSortColumn !== SortColumn.EVENT_DATE
+            }"
+          >
+          </fa-icon>
+        </th>
+        <th scope="col" (click)="handleSortColumn(SortColumn.APP_DEVICE_TYPE)">
+          App Device Type<fa-icon
+            [icon]="getSortIcon(SortColumn.APP_DEVICE_TYPE)"
+            [ngClass]="{
+              'ml-2': true,
+              'faded-sort': currentSortColumn !== SortColumn.APP_DEVICE_TYPE
+            }"
+          >
+          </fa-icon>
+        </th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let event of eventsData">
+      <tr *ngFor="let event of sortedData">
         <td>{{ event.id }}</td>
         <td>{{ event.campaignName }}</td>
         <td>{{ event.eventType }}</td>
         <td>{{ event.appUserId }}</td>
         <td>{{ event.appUserGender }}</td>
-        <td>{{ event.eventDate }}</td>
+        <td>
+          {{ event.eventDate.toLocaleDateString() }}
+          {{ event.eventDate.toLocaleTimeString() }}
+        </td>
         <td>{{ event.appDeviceType }}</td>
       </tr>
     </tbody>

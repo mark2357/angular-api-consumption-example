@@ -1,17 +1,23 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { EventData } from '../types/EventData';
 import { GraphData } from '../types/GraphData';
+import { DateRange } from '../types/DateRange';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EventFilterType } from '../enums/EventFilterType';
-
+import { NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-	selector: 'app-summery-tab',
-	templateUrl: './summery-tab.component.html',
-	styleUrls: ['./summery-tab.component.scss']
+	selector: 'app-summary-tab',
+	templateUrl: './summary-tab.component.html',
+	styleUrls: ['./summary-tab.component.scss']
 })
-export class SummeryTabComponent implements OnInit {
+export class SummaryTabComponent implements OnInit {
 	@Input() eventsData: Array<EventData>;
+	@Input() dateFilterRange: DateRange;
+	@Output() setDateFilterRangeEvent = new EventEmitter<DateRange>(); 
+
+	faTimes = faTimes;
 
 	EventFilterType = EventFilterType;
 
@@ -25,10 +31,14 @@ export class SummeryTabComponent implements OnInit {
 	deviceTypeGraphData: Array<GraphData> = [];
 
 
-	constructor(private modalService: NgbModal) { }
+	constructor(private modalService: NgbModal) {
+	}
 
 	ngOnChanges(changes) {
-		if (this.eventsData !== null) {
+		if (changes.eventsData && changes.eventsData.previousValue === null && changes.eventsData.currentValue !== null) {
+			this.processData();
+		}
+		if (changes.dateFilterRange && changes.dateFilterRange.previousValue !== changes.dateFilterRange.currentValue && changes.dateFilterRange.previousValue !== undefined) {
 			this.processData();
 		}
 	}
@@ -42,11 +52,18 @@ export class SummeryTabComponent implements OnInit {
 		let genderData = {};
 		let deviceTypeData = {};
 
+		// -1 is added to the month as Date uses 0 for Jan while NgbDate use 1 for Jan
+		const fromDate = new Date(this.dateFilterRange.fromDate.year, this.dateFilterRange.fromDate.month - 1, this.dateFilterRange.fromDate.day);
+		// to date uses 23:59:59 as the end time
+		const toDate = new Date(this.dateFilterRange.toDate.year, this.dateFilterRange.toDate.month - 1, this.dateFilterRange.toDate.day, 23, 59, 59);
+
+
 		const filteredData: Array<EventData> = this.eventsData.filter((event) => {
 			if(this.campaignFilter !== null && this.campaignFilter !== event.campaignName) return false
 			if(this.eventTypeFilter !== null && this.eventTypeFilter !== event.eventType) return false
 			if(this.genderFilter !== null && this.genderFilter !== event.appUserGender) return false
 			if(this.deviceTypeFilter !== null && this.deviceTypeFilter !== event.appDeviceType) return false
+			if( fromDate > event.eventDate || toDate < event.eventDate) return false;
 
 			return true;
 		})
@@ -58,7 +75,6 @@ export class SummeryTabComponent implements OnInit {
 			this.addCountToDataObject(genderData, event.appUserGender);
 			this.addCountToDataObject(deviceTypeData, event.appDeviceType);
 		});
-		// console.log(Object.values(campaignData));
 		this.campaignGraphData = Object.values(campaignData);
 		this.eventTypeGraphData = Object.values(eventTypeData);
 		this.genderGraphData = Object.values(genderData);
@@ -101,11 +117,10 @@ export class SummeryTabComponent implements OnInit {
 			default:
 				break;
 		}
-		console.log('Item clicked', JSON.parse(JSON.stringify(data)));
 		this.processData();
 	}
 
-	public handleRemoveFilter(type: EventFilterType) {
+	public handleRemoveFilter(type: EventFilterType): void {
 		switch (type) {
 			case EventFilterType.CAMPAIGN_NAME:
 				this.campaignFilter = null;
@@ -123,5 +138,9 @@ export class SummeryTabComponent implements OnInit {
 				break;
 		}
 		this.processData();
+	}
+
+	public updateDateRange(dateRange: DateRange): void {
+		this.setDateFilterRangeEvent.emit(dateRange);
 	}
 }
