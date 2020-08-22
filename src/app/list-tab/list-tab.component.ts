@@ -1,10 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-import { faSortUp, faSortDown, faSort, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faSortUp, faSortDown, faSort, faFilter, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 import { SortColumn } from '../enums/SortColumn';
 import { EventData } from '../types/EventData';
 import { DateRange } from '../types/DateRange';
+import { Filters } from '../types/Filters';
+import { EventFilterType } from '../enums/EventFilterType';
 
 @Component({
 	selector: 'app-list-tab',
@@ -14,28 +16,36 @@ import { DateRange } from '../types/DateRange';
 export class ListTabComponent implements OnInit {
 	@Input() eventsData: Array<EventData>;
 	@Input() dateFilterRange: DateRange;
-	@Output() setDateFilterRangeEvent = new EventEmitter<DateRange>();
+	@Input() filters: Filters;
+	@Output() addRemoveFilterEvent = new EventEmitter<{ type: EventFilterType, newFilterValue: string | null }>(); 
 
 	SortColumn = SortColumn;
+	EventFilterType = EventFilterType;
 
 	currentSortDirectionUp: boolean = false;
 	currentSortColumn: SortColumn = SortColumn.ID;
 
+	campaignFilterOptions: Array<string> = [];
+	eventTypeFilterOptions: Array<string> = [];
+	genderFilterOptions: Array<string> = [];
+	deviceTypeFilterOptions: Array<string> = [];
+
 	sortedData: Array<EventData> = [];
+
+	faFilter = faFilter;
+
 	constructor() { }
 
 	ngOnInit(): void {
 		if (this.eventsData !== null) {
+			console.log(this.eventsData);
 			this.processData();
 		}
 	}
 
 
 	ngOnChanges(changes) {
-		if (changes.eventsData && changes.eventsData.previousValue === null && changes.eventsData.currentValue !== null) {
-			this.processData();
-		}
-		if (changes.dateFilterRange && changes.dateFilterRange.previousValue !== changes.dateFilterRange.currentValue && changes.dateFilterRange.previousValue !== undefined) {
+		if (this.eventsData !== null && (changes.eventsData || changes.dateFilterRange || changes.filters)) {
 			this.processData();
 		}
 	}
@@ -46,11 +56,25 @@ export class ListTabComponent implements OnInit {
 		// to date uses 23:59:59 as the end time
 		const toDate = new Date(this.dateFilterRange.toDate.year, this.dateFilterRange.toDate.month - 1, this.dateFilterRange.toDate.day, 23, 59, 59);
 
+		this.campaignFilterOptions = [];
+		this.eventTypeFilterOptions = [];
 
 		let filteredData: Array<EventData> = this.eventsData.filter((event) => {
+			// determining the filter options is done in the filter loop to reduce unnecessary interactions over the displayed data
+			if(!this.campaignFilterOptions.includes(event.campaignName)) this.campaignFilterOptions.push(event.campaignName);
+			if(!this.eventTypeFilterOptions.includes(event.eventType)) this.eventTypeFilterOptions.push(event.eventType);
+			if(!this.genderFilterOptions.includes(event.appUserGender)) this.genderFilterOptions.push(event.appUserGender);
+			if(!this.deviceTypeFilterOptions.includes(event.appDeviceType)) this.deviceTypeFilterOptions.push(event.appDeviceType);
+
+			if(this.filters.campaignFilter !== null && this.filters.campaignFilter !== event.campaignName) return false
+			if(this.filters.eventTypeFilter !== null && this.filters.eventTypeFilter !== event.eventType) return false
+			if(this.filters.genderFilter !== null && this.filters.genderFilter !== event.appUserGender) return false
+			if(this.filters.deviceTypeFilter !== null && this.filters.deviceTypeFilter !== event.appDeviceType) return false
 			if (fromDate > event.eventDate || toDate < event.eventDate) return false;
 			return true;
-		})
+		});
+
+		console.log(this.campaignFilterOptions);
 
 		let sortedData = filteredData.sort((eventA: EventData, eventB: EventData) => {
 			let valueA = null;
@@ -121,9 +145,9 @@ export class ListTabComponent implements OnInit {
 		}
 		this.processData();
 	}
-
-
-	public updateDateRange(dateRange: DateRange): void {
-		this.setDateFilterRangeEvent.emit(dateRange);
+	
+	public handleAddRemoveFilter(type: EventFilterType, newFilterValue): void {
+		console.log('handleAddRemoveFilter');
+		this.addRemoveFilterEvent.emit({type: type, newFilterValue: newFilterValue});
 	}
 }

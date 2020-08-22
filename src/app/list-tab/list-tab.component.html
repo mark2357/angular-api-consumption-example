@@ -6,89 +6,214 @@
     <span class="sr-only">Loading...</span>
   </div>
 </div>
-<div class="p-2">
-  <app-date-range-picker
-    (updateDateRangeEvent)="updateDateRange($event)"
-    [initialDateRange]="dateFilterRange"
-  >
-  </app-date-range-picker>
-</div>
 <div *ngIf="eventsData !== null" class="table">
   <table class="w-100">
-    <thead>
+    <thead class="table-header sticky-top">
       <tr>
-        <th class='sort-header' scope="col" (click)="handleSortColumn(SortColumn.ID)">
+        <th scope="col">
           ID
           <fa-icon
             [icon]="getSortIcon(SortColumn.ID)"
             [ngClass]="{
-              'ml-2': true,
+              'px-1': true,
+              'sort-icon': true,
               'faded-sort': currentSortColumn !== SortColumn.ID
             }"
+            (click)="handleSortColumn(SortColumn.ID)"
           >
           </fa-icon>
         </th>
-        <th class='sort-header' scope="col" (click)="handleSortColumn(SortColumn.CAMPAIGN_NAME)">
+        <th scope="col">
           Campaign Name
           <fa-icon
             [icon]="getSortIcon(SortColumn.CAMPAIGN_NAME)"
             [ngClass]="{
-              'ml-2': true,
+              'px-1': true,
+              'sort-icon': true,
               'faded-sort': currentSortColumn !== SortColumn.CAMPAIGN_NAME
             }"
+            (click)="handleSortColumn(SortColumn.CAMPAIGN_NAME)"
           >
           </fa-icon>
+          <div ngbDropdown class="d-inline-block">
+            <fa-icon
+              ngbDropdownToggle
+              [icon]="faFilter"
+              [ngClass]="{
+                'px-1': true,
+                'faded-filter': filters.campaignFilter === null,
+                'dropdown-no-carrot': true
+              }"
+            >
+            </fa-icon>
+            <div class='dropdown-list-limit-height' ngbDropdownMenu>
+              <button
+                *ngFor="let filterOption of campaignFilterOptions"
+                [ngClass]="{
+                  'selected-dropdown-item':
+                  filterOption === filters.campaignFilter 
+                }"
+                ngbDropdownItem
+                (click)="
+                  handleAddRemoveFilter(
+                    EventFilterType.CAMPAIGN_NAME,
+                    filterOption
+                  )
+                "
+              >
+                {{ filterOption }}
+              </button>
+            </div>
+          </div>
         </th>
-        <th class='sort-header' scope="col" (click)="handleSortColumn(SortColumn.EVENT_TYPE)">
+        <th scope="col">
           Event Type
           <fa-icon
             [icon]="getSortIcon(SortColumn.EVENT_TYPE)"
             [ngClass]="{
-              'ml-2': true,
+              'px-1': true,
+              'sort-icon': true,
               'faded-sort': currentSortColumn !== SortColumn.EVENT_TYPE
             }"
+            (click)="handleSortColumn(SortColumn.EVENT_TYPE)"
           >
           </fa-icon>
+          <div ngbDropdown class="d-inline-block">
+            <fa-icon
+              ngbDropdownToggle
+              [icon]="faFilter"
+              [ngClass]="{
+                'px-1': true,
+                'faded-filter': filters.eventTypeFilter === null,
+                'dropdown-no-carrot': true
+              }"
+            >
+            </fa-icon>
+            <div class='dropdown-list-limit-height' ngbDropdownMenu>
+              <button
+                *ngFor="let filterOption of eventTypeFilterOptions"
+                [ngClass]="{
+                  'selected-dropdown-item':
+                  filterOption === filters.eventTypeFilter 
+                }"
+                ngbDropdownItem
+                (click)="
+                  handleAddRemoveFilter(
+                    EventFilterType.EVENT_TYPE,
+                    filterOption
+                  )
+                "
+              >
+                {{ filterOption }}
+              </button>
+            </div>
+          </div>
         </th>
-        <th class='sort-header' scope="col" (click)="handleSortColumn(SortColumn.APP_USER_ID)">
-          App User ID<fa-icon
+        <th scope="col">
+          App User ID
+          <fa-icon
             [icon]="getSortIcon(SortColumn.APP_USER_ID)"
             [ngClass]="{
-              'ml-2': true,
+              'px-1': true,
+              'sort-icon': true,
               'faded-sort': currentSortColumn !== SortColumn.APP_USER_ID
             }"
+            (click)="handleSortColumn(SortColumn.APP_USER_ID)"
           >
           </fa-icon>
         </th>
-        <th class='sort-header' scope="col" (click)="handleSortColumn(SortColumn.APP_USER_GENDER)">
+        <th scope="col">
           App User Gender<fa-icon
             [icon]="getSortIcon(SortColumn.APP_USER_GENDER)"
             [ngClass]="{
-              'ml-2': true,
+              'px-1': true,
+              'sort-icon': true,
               'faded-sort': currentSortColumn !== SortColumn.APP_USER_GENDER
             }"
+            (click)="handleSortColumn(SortColumn.APP_USER_GENDER)"
           >
           </fa-icon>
+          <div ngbDropdown class="d-inline-block">
+            <fa-icon
+              ngbDropdownToggle
+              [icon]="faFilter"
+              [ngClass]="{
+                'px-1': true,
+                'faded-filter': filters.genderFilter === null,
+                'dropdown-no-carrot': true
+              }"
+            >
+            </fa-icon>
+            <div class='dropdown-list-limit-height' ngbDropdownMenu>
+              <button
+                *ngFor="let filterOption of genderFilterOptions"
+                [ngClass]="{
+                  'selected-dropdown-item':
+                  filterOption === filters.genderFilter 
+                }"
+                ngbDropdownItem
+                (click)="
+                  handleAddRemoveFilter(EventFilterType.GENDER, filterOption)
+                "
+              >
+                {{ filterOption }}
+              </button>
+            </div>
+          </div>
         </th>
-        <th class='sort-header' scope="col" (click)="handleSortColumn(SortColumn.EVENT_DATE)">
+        <th scope="col">
           Event Date<fa-icon
             [icon]="getSortIcon(SortColumn.EVENT_DATE)"
             [ngClass]="{
-              'ml-2': true,
+              'px-1': true,
+              'sort-icon': true,
               'faded-sort': currentSortColumn !== SortColumn.EVENT_DATE
             }"
+            (click)="handleSortColumn(SortColumn.EVENT_DATE)"
           >
           </fa-icon>
         </th>
-        <th class='sort-header' scope="col" (click)="handleSortColumn(SortColumn.APP_DEVICE_TYPE)">
+        <th scope="col">
           App Device Type<fa-icon
             [icon]="getSortIcon(SortColumn.APP_DEVICE_TYPE)"
             [ngClass]="{
-              'ml-2': true,
+              'px-1': true,
+              'sort-icon': true,
               'faded-sort': currentSortColumn !== SortColumn.APP_DEVICE_TYPE
             }"
+            (click)="handleSortColumn(SortColumn.APP_DEVICE_TYPE)"
           >
           </fa-icon>
+          <div ngbDropdown class="d-inline-block">
+            <fa-icon
+              ngbDropdownToggle
+              [icon]="faFilter"
+              [ngClass]="{
+                'px-1': true,
+                'faded-filter': filters.deviceTypeFilter === null,
+                'dropdown-no-carrot': true
+              }"
+            >
+            </fa-icon>
+            <div class='dropdown-list-limit-height' ngbDropdownMenu>
+              <button
+                *ngFor="let filterOption of deviceTypeFilterOptions"
+                [ngClass]="{
+                  'selected-dropdown-item':
+                  filterOption === filters.deviceTypeFilter 
+                }"
+                ngbDropdownItem
+                (click)="
+                  handleAddRemoveFilter(
+                    EventFilterType.APP_DEVICE_TYPE,
+                    filterOption
+                  )
+                "
+              >
+                {{ filterOption }}
+              </button>
+            </div>
+          </div>
         </th>
       </tr>
     </thead>

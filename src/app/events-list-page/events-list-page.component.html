@@ -1,4 +1,4 @@
-<div class="page-wrapper">
+<div class="page-wrapper d-flex flex-column">
   <nav class="navbar sticky-top navbar-expand-sm navbar-light bg-light">
     <span class="navbar-brand" href="#">Events List</span>
     <ul class="navbar-nav mr-auto">
@@ -25,16 +25,66 @@
       <span>Logout</span>
     </button>
   </nav>
+
+  <div class="filter-container d-flex align-items-center px-3 mt-2 flex-shrink-0">
+    <span class="mr-2">Filters:</span>
+    <button
+      *ngIf="filters.campaignFilter !== null"
+      type="button"
+      class="btn btn-primary mr-2"
+      (click)="addRemoveFilter({type: EventFilterType.CAMPAIGN_NAME, newFilterValue: null})"
+    >
+      Campaign Filter : {{ filters.campaignFilter }}
+      <fa-icon [icon]="faTimes"></fa-icon>
+    </button>
+    <button
+      *ngIf="filters.eventTypeFilter !== null"
+      type="button"
+      class="btn btn-primary mr-2"
+      (click)="addRemoveFilter({type: EventFilterType.EVENT_TYPE, newFilterValue: null})"
+    >
+      Event Type Filter : {{ filters.eventTypeFilter }}
+      <fa-icon [icon]="faTimes"></fa-icon>
+    </button>
+    <button
+      *ngIf="filters.genderFilter !== null"
+      type="button"
+      class="btn btn-primary mr-2"
+      (click)="addRemoveFilter({type: EventFilterType.GENDER, newFilterValue: null})"
+    >
+      Gender Filter : {{ filters.genderFilter }}
+      <fa-icon [icon]="faTimes"></fa-icon>
+    </button>
+    <button
+      *ngIf="filters.deviceTypeFilter !== null"
+      type="button"
+      class="btn btn-primary mr-2"
+      (click)="addRemoveFilter({type: EventFilterType.APP_DEVICE_TYPE, newFilterValue: null})"
+    >
+      Device Filter : {{ filters.deviceTypeFilter }}
+      <fa-icon [icon]="faTimes"></fa-icon>
+    </button>
+  </div>
+  <app-date-range-picker
+    class="px-3 pb-3"
+    (updateDateRangeEvent)="setDateFilterRange($event)"
+    [initialDateRange]="dateFilterRange"
+  >
+  </app-date-range-picker>
+<div class="content-container flex-grow-1">
   <app-summary-tab
     *ngIf="tabIndex === 0"
     [eventsData]="eventsData"
     [dateFilterRange]="dateFilterRange"
-    (setDateFilterRangeEvent)="setDateFilterRange($event)"
+    [filters]="filters"
+    (addRemoveFilterEvent)="addRemoveFilter($event)"
   ></app-summary-tab>
   <app-list-tab
     *ngIf="tabIndex === 1"
     [eventsData]="eventsData"
     [dateFilterRange]="dateFilterRange"
-    (setDateFilterRangeEvent)="setDateFilterRange($event)"
+    [filters]="filters"
+    (addRemoveFilterEvent)="addRemoveFilter($event)"
   ></app-list-tab>
+</div>
 </div>

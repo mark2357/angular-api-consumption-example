@@ -4,7 +4,7 @@
     flex-direction: column;
     justify-content: flex-start;
 
-    .sort-header {
+    .sort-icon {
         cursor: pointer;
     }
 
@@ -15,5 +15,29 @@
     }
     .faded-sort {
         color: lightgray;
+    }
+    .faded-filter {
+        color: lightgray;
+    }
+    .dropdown-no-carrot::after {
+        display: none !important;
+    }
+    .dropdown-no-carrot::before {
+        display: none !important;
+    }
+    .table-header {
+        background-color: white;
+    }
+
+    //
+    .selected-dropdown-item {
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .dropdown-list-limit-height {
+        max-height: 80vh;
+        overflow-y: auto;
     }
 }

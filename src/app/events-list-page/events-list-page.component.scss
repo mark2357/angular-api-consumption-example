@@ -1,11 +1,17 @@
 .page-wrapper {
     min-height: 100vh;
-    height: auto;
+    height: 100vh;
     margin: 0;
-    display: flex;
-    flex-direction: column;
+    // display: flex;
+    // flex-direction: column;
 
     .pointer-span {
         cursor: pointer;
+    }
+    .filter-container {
+        height: 3em;
+    }
+    .content-container {
+        overflow-y: auto;
     }
 }

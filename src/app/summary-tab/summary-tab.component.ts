@@ -6,6 +6,7 @@ import { EventFilterType } from '../enums/EventFilterType';
 import { EventData } from '../types/EventData';
 import { GraphData } from '../types/GraphData';
 import { DateRange } from '../types/DateRange';
+import { Filters } from '../types/Filters';
 
 @Component({
 	selector: 'app-summary-tab',
@@ -15,16 +16,13 @@ import { DateRange } from '../types/DateRange';
 export class SummaryTabComponent implements OnInit {
 	@Input() eventsData: Array<EventData>;
 	@Input() dateFilterRange: DateRange;
-	@Output() setDateFilterRangeEvent = new EventEmitter<DateRange>(); 
+	@Input() filters: Filters;
+	@Output() addRemoveFilterEvent = new EventEmitter<{ type: EventFilterType, newFilterValue: string | null }>(); 
 
 	faTimes = faTimes;
 
 	EventFilterType = EventFilterType;
 
-	campaignFilter: string = null;
-	eventTypeFilter: string = null;
-	genderFilter: string = null;
-	deviceTypeFilter: string = null;
 	campaignGraphData: Array<GraphData> = [];
 	eventTypeGraphData: Array<GraphData> = [];
 	genderGraphData: Array<GraphData> = [];
@@ -33,18 +31,15 @@ export class SummaryTabComponent implements OnInit {
 
 	constructor() {
 	}
-
-	ngOnChanges(changes) {
-		if (changes.eventsData && changes.eventsData.previousValue === null && changes.eventsData.currentValue !== null) {
-			this.processData();
-		}
-		if (changes.dateFilterRange && changes.dateFilterRange.previousValue !== changes.dateFilterRange.currentValue && changes.dateFilterRange.previousValue !== undefined) {
+	
+	ngOnInit(): void {
+		if(this.eventsData !== null) {
 			this.processData();
 		}
 	}
-
-	ngOnInit(): void {
-		if(this.eventsData !== null) {
+	
+	ngOnChanges(changes) {
+		if (this.eventsData !== null && (changes.eventsData || changes.dateFilterRange || changes.filters)) {
 			this.processData();
 		}
 	}
@@ -62,12 +57,12 @@ export class SummaryTabComponent implements OnInit {
 
 
 		const filteredData: Array<EventData> = this.eventsData.filter((event) => {
-			if(this.campaignFilter !== null && this.campaignFilter !== event.campaignName) return false
-			if(this.eventTypeFilter !== null && this.eventTypeFilter !== event.eventType) return false
-			if(this.genderFilter !== null && this.genderFilter !== event.appUserGender) return false
-			if(this.deviceTypeFilter !== null && this.deviceTypeFilter !== event.appDeviceType) return false
-			if( fromDate > event.eventDate || toDate < event.eventDate) return false;
-
+			if(this.filters.campaignFilter !== null && this.filters.campaignFilter !== event.campaignName) return false
+			if(this.filters.eventTypeFilter !== null && this.filters.eventTypeFilter !== event.eventType) return false
+			if(this.filters.genderFilter !== null && this.filters.genderFilter !== event.appUserGender) return false
+			if(this.filters.deviceTypeFilter !== null && this.filters.deviceTypeFilter !== event.appDeviceType) return false
+			if( fromDate > event.eventDate || toDate < event.eventDate) return false;			
+			
 			return true;
 		})
 
@@ -98,41 +93,7 @@ export class SummaryTabComponent implements OnInit {
 	}
 
 	public handleAddRemoveFilter(type: EventFilterType, data): void {
-
-		let jsonData = data === null ? null : JSON.parse(JSON.stringify(data));
-
-		switch (type) {
-			case EventFilterType.CAMPAIGN_NAME:	
-			if(jsonData === null || this.campaignFilter === jsonData.name)
-				this.campaignFilter = null;
-			else
-				this.campaignFilter = jsonData.name;
-				break;
-			case EventFilterType.EVENT_TYPE:
-				if (jsonData === null || this.eventTypeFilter === jsonData.name)
-				this.eventTypeFilter = null;
-			else
-				this.eventTypeFilter = jsonData.name;
-				break;
-			case EventFilterType.GENDER:
-				if (jsonData === null || this.genderFilter === jsonData.name)
-				this.genderFilter = null;
-			else
-				this.genderFilter = jsonData.name;
-				break;
-			case EventFilterType.APP_DEVICE_TYPE:
-				if (jsonData === null || this.deviceTypeFilter === jsonData.name)
-				this.deviceTypeFilter = null;
-			else
-				this.deviceTypeFilter = jsonData.name;
-				break;
-			default:
-				break;
-		}
-		this.processData();
-	}
-
-	public updateDateRange(dateRange: DateRange): void {
-		this.setDateFilterRangeEvent.emit(dateRange);
+		let newFilterValue = data === null ? null : JSON.parse(JSON.stringify(data)).name;
+		this.addRemoveFilterEvent.emit({type: type, newFilterValue: newFilterValue});
 	}
 }
