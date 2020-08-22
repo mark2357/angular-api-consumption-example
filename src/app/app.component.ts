@@ -12,16 +12,16 @@ export class AppComponent {
 	ngOnInit(): void {
 	}
 
-	updateToken(newToken: string): void {
+	public updateToken(newToken: string): void {
 		this.authJwtToken = newToken;
 		this.saveTokenToLocalStorage(newToken);
 	}
 
-	loadTokenFromLocalStorage(): string  {
+	private loadTokenFromLocalStorage(): string  {
 		return localStorage.getItem('token') || '';
 	}
 
-	saveTokenToLocalStorage(token: string): void {
+	private saveTokenToLocalStorage(token: string): void {
 		localStorage.setItem('token', token);
 	}
 }

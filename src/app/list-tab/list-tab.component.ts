@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+
+import { faSortUp, faSortDown, faSort, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+
+import { SortColumn } from '../enums/SortColumn';
 import { EventData } from '../types/EventData';
 import { DateRange } from '../types/DateRange';
-import { faSortUp, faSortDown, faSort, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { SortColumn } from '../enums/SortColumn';
-
 
 @Component({
 	selector: 'app-list-tab',

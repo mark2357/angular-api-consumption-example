@@ -1,10 +1,13 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { EventData } from '../types/EventData';
+import { environment } from '../../environments/environment';
+
+import { NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
+
 import { InputEventData } from '../types/InputEventData';
 import { DateRange } from '../types/DateRange';
-import { NgbModal, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
+import { EventData } from '../types/EventData';
+import { Logger } from '../helpers/Logger';
 
 @Component({
 	selector: 'app-events-list-page',
@@ -33,25 +36,26 @@ export class EventsListPageComponent implements OnInit {
 		this.requestData();
 	}
 
-	private requestData() {
+	private requestData(): void {
 		const headers = new HttpHeaders()
 			.set('Authorization', 'Bearer ' + this.token);
 
 		this.http.get<Array<InputEventData>>(
-			'https://localhost:44393/events',
+			environment.endpointURL + '/events',
 			{ 'headers': headers },
 
 		).toPromise().then(
 			res => { // Success
+				Logger.log('success', res);
 				this.processData(res);
 			},
 			msg => { // Error
-				console.log('error', msg);
+				Logger.error('error', msg);
 			}
 		);
 	}
 
-	private processData(data: Array<InputEventData>) {
+	private processData(data: Array<InputEventData>): void {
 
 		let eventsData: Array<EventData> = [];
 
@@ -82,5 +86,4 @@ export class EventsListPageComponent implements OnInit {
 	public handleLogoutClick(): void {
 		this.updateTokenEvent.emit('');
 	}
-
 }

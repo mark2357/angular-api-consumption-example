@@ -4,6 +4,10 @@
     flex-direction: column;
     justify-content: flex-start;
 
+    .sort-header {
+        cursor: pointer;
+    }
+
     .page-loading-spinner {
         width: 30vw;
         height: 30vw;

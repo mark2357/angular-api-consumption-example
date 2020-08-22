@@ -17,7 +17,7 @@
   <table class="w-100">
     <thead>
       <tr>
-        <th scope="col" (click)="handleSortColumn(SortColumn.ID)">
+        <th class='sort-header' scope="col" (click)="handleSortColumn(SortColumn.ID)">
           ID
           <fa-icon
             [icon]="getSortIcon(SortColumn.ID)"
@@ -28,7 +28,7 @@
           >
           </fa-icon>
         </th>
-        <th scope="col" (click)="handleSortColumn(SortColumn.CAMPAIGN_NAME)">
+        <th class='sort-header' scope="col" (click)="handleSortColumn(SortColumn.CAMPAIGN_NAME)">
           Campaign Name
           <fa-icon
             [icon]="getSortIcon(SortColumn.CAMPAIGN_NAME)"
@@ -39,7 +39,7 @@
           >
           </fa-icon>
         </th>
-        <th scope="col" (click)="handleSortColumn(SortColumn.EVENT_TYPE)">
+        <th class='sort-header' scope="col" (click)="handleSortColumn(SortColumn.EVENT_TYPE)">
           Event Type
           <fa-icon
             [icon]="getSortIcon(SortColumn.EVENT_TYPE)"
@@ -50,7 +50,7 @@
           >
           </fa-icon>
         </th>
-        <th scope="col" (click)="handleSortColumn(SortColumn.APP_USER_ID)">
+        <th class='sort-header' scope="col" (click)="handleSortColumn(SortColumn.APP_USER_ID)">
           App User ID<fa-icon
             [icon]="getSortIcon(SortColumn.APP_USER_ID)"
             [ngClass]="{
@@ -60,7 +60,7 @@
           >
           </fa-icon>
         </th>
-        <th scope="col" (click)="handleSortColumn(SortColumn.APP_USER_GENDER)">
+        <th class='sort-header' scope="col" (click)="handleSortColumn(SortColumn.APP_USER_GENDER)">
           App User Gender<fa-icon
             [icon]="getSortIcon(SortColumn.APP_USER_GENDER)"
             [ngClass]="{
@@ -70,7 +70,7 @@
           >
           </fa-icon>
         </th>
-        <th scope="col" (click)="handleSortColumn(SortColumn.EVENT_DATE)">
+        <th class='sort-header' scope="col" (click)="handleSortColumn(SortColumn.EVENT_DATE)">
           Event Date<fa-icon
             [icon]="getSortIcon(SortColumn.EVENT_DATE)"
             [ngClass]="{
@@ -80,7 +80,7 @@
           >
           </fa-icon>
         </th>
-        <th scope="col" (click)="handleSortColumn(SortColumn.APP_DEVICE_TYPE)">
+        <th class='sort-header' scope="col" (click)="handleSortColumn(SortColumn.APP_DEVICE_TYPE)">
           App Device Type<fa-icon
             [icon]="getSortIcon(SortColumn.APP_DEVICE_TYPE)"
             [ngClass]="{

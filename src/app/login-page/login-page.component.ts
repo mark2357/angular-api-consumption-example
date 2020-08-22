@@ -1,7 +1,11 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { HttpClient } from '@angular/common/http';
-import { FormBuilder, Validators} from '@angular/forms';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { environment } from '../../environments/environment';
+
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { env } from 'process';
+import { Logger } from '../helpers/Logger';
 
 @Component({
 	selector: 'app-login-page',
@@ -15,9 +19,10 @@ export class LoginPageComponent implements OnInit {
 	faEye = faEye;
 	faEyeSlash = faEyeSlash;
 
-	// login form
-	loginForm;
+	loginForm: FormGroup;
+
 	showPassword: boolean = false;
+
 	// set to true if the user fails a login attempt
 	showFailedLoginAlert: boolean = false;
 
@@ -30,28 +35,28 @@ export class LoginPageComponent implements OnInit {
 			password: ['', Validators.required],
 		});
 	}
+	
+	private updateToken(newToken: string): void {
+		this.updateTokenEvent.emit(newToken);
+	}
 
 	public handleLoginClick(loginData): void {
 		this.http.post<any>(
-			'https://localhost:44393/users/authenticate',
+			environment.endpointURL + '/users/authenticate',
 			{
 				"username": loginData.email,
 				"password": loginData.password
 			}
 		).toPromise().then(
 			res => { // Success
-			console.log('success', res);
-			this.updateToken(res.token)
+				Logger.log('success', res);
+				this.updateToken(res.token)
 			},
 			msg => { // Error
-			this.showFailedLoginAlert = true;
-			console.log('error', msg);
+				this.showFailedLoginAlert = true;
+				Logger.error('error', msg);
 			}
-		  );
-		}
-
-	updateToken(newToken: string) {
-		this.updateTokenEvent.emit(newToken);
+		);
 	}
 
 	public handleTogglePasswordVisibility(): void {

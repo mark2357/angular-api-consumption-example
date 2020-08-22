@@ -1,10 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+
+import { EventFilterType } from '../enums/EventFilterType';
 import { EventData } from '../types/EventData';
 import { GraphData } from '../types/GraphData';
 import { DateRange } from '../types/DateRange';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { EventFilterType } from '../enums/EventFilterType';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
 	selector: 'app-summary-tab',
