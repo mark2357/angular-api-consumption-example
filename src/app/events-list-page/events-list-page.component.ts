@@ -65,6 +65,8 @@ export class EventsListPageComponent implements OnInit {
 			},
 			msg => { // Error
 				Logger.error('error', msg);
+				// error retrieving dat logs out user
+				this.updateTokenEvent.emit('');
 			}
 		);
 	}

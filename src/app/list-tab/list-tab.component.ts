@@ -38,7 +38,6 @@ export class ListTabComponent implements OnInit {
 
 	ngOnInit(): void {
 		if (this.eventsData !== null) {
-			console.log(this.eventsData);
 			this.processData();
 		}
 	}
@@ -73,8 +72,6 @@ export class ListTabComponent implements OnInit {
 			if (fromDate > event.eventDate || toDate < event.eventDate) return false;
 			return true;
 		});
-
-		console.log(this.campaignFilterOptions);
 
 		let sortedData = filteredData.sort((eventA: EventData, eventB: EventData) => {
 			let valueA = null;
@@ -147,7 +144,6 @@ export class ListTabComponent implements OnInit {
 	}
 	
 	public handleAddRemoveFilter(type: EventFilterType, newFilterValue): void {
-		console.log('handleAddRemoveFilter');
 		this.addRemoveFilterEvent.emit({type: type, newFilterValue: newFilterValue});
 	}
 }

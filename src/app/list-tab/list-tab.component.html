@@ -9,6 +9,7 @@
 <div *ngIf="eventsData !== null" class="table">
   <table class="w-100">
     <thead class="table-header sticky-top">
+      <!-- Campaign Header -->
       <tr>
         <th scope="col">
           ID
@@ -46,12 +47,12 @@
               }"
             >
             </fa-icon>
-            <div class='dropdown-list-limit-height' ngbDropdownMenu>
+            <div class="dropdown-list-limit-height" ngbDropdownMenu>
               <button
                 *ngFor="let filterOption of campaignFilterOptions"
                 [ngClass]="{
                   'selected-dropdown-item':
-                  filterOption === filters.campaignFilter 
+                    filterOption === filters.campaignFilter
                 }"
                 ngbDropdownItem
                 (click)="
@@ -66,6 +67,7 @@
             </div>
           </div>
         </th>
+        <!-- Event Type Header -->
         <th scope="col">
           Event Type
           <fa-icon
@@ -89,12 +91,12 @@
               }"
             >
             </fa-icon>
-            <div class='dropdown-list-limit-height' ngbDropdownMenu>
+            <div class="dropdown-list-limit-height" ngbDropdownMenu>
               <button
                 *ngFor="let filterOption of eventTypeFilterOptions"
                 [ngClass]="{
                   'selected-dropdown-item':
-                  filterOption === filters.eventTypeFilter 
+                    filterOption === filters.eventTypeFilter
                 }"
                 ngbDropdownItem
                 (click)="
@@ -109,6 +111,7 @@
             </div>
           </div>
         </th>
+        <!-- App User ID Header -->
         <th scope="col">
           App User ID
           <fa-icon
@@ -122,6 +125,7 @@
           >
           </fa-icon>
         </th>
+        <!-- App User Gender Header -->
         <th scope="col">
           App User Gender<fa-icon
             [icon]="getSortIcon(SortColumn.APP_USER_GENDER)"
@@ -144,12 +148,12 @@
               }"
             >
             </fa-icon>
-            <div class='dropdown-list-limit-height' ngbDropdownMenu>
+            <div class="dropdown-list-limit-height" ngbDropdownMenu>
               <button
                 *ngFor="let filterOption of genderFilterOptions"
                 [ngClass]="{
                   'selected-dropdown-item':
-                  filterOption === filters.genderFilter 
+                    filterOption === filters.genderFilter
                 }"
                 ngbDropdownItem
                 (click)="
@@ -161,6 +165,7 @@
             </div>
           </div>
         </th>
+        <!-- Event Date Header -->
         <th scope="col">
           Event Date<fa-icon
             [icon]="getSortIcon(SortColumn.EVENT_DATE)"
@@ -173,6 +178,7 @@
           >
           </fa-icon>
         </th>
+        <!-- App Device Type Header -->
         <th scope="col">
           App Device Type<fa-icon
             [icon]="getSortIcon(SortColumn.APP_DEVICE_TYPE)"
@@ -195,12 +201,12 @@
               }"
             >
             </fa-icon>
-            <div class='dropdown-list-limit-height' ngbDropdownMenu>
+            <div class="dropdown-list-limit-height" ngbDropdownMenu>
               <button
                 *ngFor="let filterOption of deviceTypeFilterOptions"
                 [ngClass]="{
                   'selected-dropdown-item':
-                  filterOption === filters.deviceTypeFilter 
+                    filterOption === filters.deviceTypeFilter
                 }"
                 ngbDropdownItem
                 (click)="
